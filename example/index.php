@@ -24,7 +24,7 @@ Route::get('/contact', function () {
 
 // Define anamed route outside any group
 Route::get('/about', function () {
-    return new \GuzzleHttp\Psr7\Response(200, [], "<h1>Contact page</h1> <br>");
+    return new \GuzzleHttp\Psr7\Response(200, [], "<h1>About page</h1> <br>");
 })->name('about');
 
 // Define routes with a group
@@ -35,7 +35,7 @@ Route::group(['group' => 'auth'], function () {
 
     Route::get('/test', [\TestController::class, 'create'])->name('test');
     Route::get('/profile/{id}', function ($id) {
-        return new \GuzzleHttp\Psr7\Response(200, [], "Profile ID: $id <br>");
+        return new \GuzzleHttp\Psr7\Response(200, [], "<h1>Profile ID: $id</h1> <br>");
     })->name('profile.show');
 });
 
@@ -54,9 +54,9 @@ try {
 // Access the current route
 $currentRoute = Route::getCurrentRoute();
 if ($currentRoute) {
-    echo "Current route name: " . $currentRoute->getName() . "<br>";
-    echo "Current route parameters: " . json_encode($currentRoute->getParams()) . "<br>";
-    echo "Current route group: " . $currentRoute->getGroup() . "<br>";
+    echo "<strong>Current route name: </strong>" . $currentRoute->getName() . "<br>";
+    echo "<strong>Current route parameters: </strong>" . json_encode($currentRoute->getParams()) . "<br>";
+    echo "<strong>Current route group: </strong>" . $currentRoute->getGroup() . "<br>";
 }
 
 // Generate URL from named route
