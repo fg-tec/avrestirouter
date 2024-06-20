@@ -8,10 +8,23 @@ use Exception;
 /**
  * Class Route
  *
- * Provide a static interface for the Router class.
+ * Provides a static interface for the Router class.
+ *
+ * @method static \AvrestiRouter\Routing\Route get(string $uri, $action)
+ * @method static \AvrestiRouter\Routing\Route post(string $uri, $action)
+ * @method static \AvrestiRouter\Routing\Route put(string $uri, $action)
+ * @method static \AvrestiRouter\Routing\Route patch(string $uri, $action)
+ * @method static \AvrestiRouter\Routing\Route delete(string $uri, $action)
+ * @method static void group(array $attributes, callable $callback)
+ * @method static \Psr\Http\Message\ResponseInterface resolve(\Psr\Http\Message\ServerRequestInterface $request)
+ * @method static string generateUrl(string $name, array $parameters = [])
+ * @method static \AvrestiRouter\Routing\Route|null getCurrentRoute()
  */
 class Route
 {
+    /**
+     * @var AvrestiRouter
+     */
     protected static AvrestiRouter $router;
 
     /**
@@ -34,40 +47,9 @@ class Route
      */
     public static function __callStatic(string $method, array $arguments)
     {
-        if (! self::$router) {
+        if (!self::$router) {
             throw new Exception('Router not set');
         }
-
         return call_user_func_array([self::$router, $method], $arguments);
-    }
-
-    /**
-     * Generates a URL for a named route.
-     *
-     * @param string $name
-     * @param array $parameters
-     * @return string
-     * @throws Exception
-     */
-    public static function generateUrl(string $name, array $parameters = []): string
-    {
-        if (!self::$router) {
-            throw new Exception('Router not set');
-        }
-        return self::$router->generateUrl($name, $parameters);
-    }
-
-    /**
-     * Returns the current matched route.
-     *
-     * @return \AvrestiRouter\Routing\Route|null
-     * @throws Exception
-     */
-    public static function getCurrentRoute(): ?\AvrestiRouter\Routing\Route
-    {
-        if (!self::$router) {
-            throw new \Exception('Router not set');
-        }
-        return self::$router->getCurrentRoute();
     }
 }
