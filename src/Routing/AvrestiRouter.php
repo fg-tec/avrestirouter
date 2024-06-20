@@ -19,7 +19,7 @@ class AvrestiRouter implements RouterInterface
 
     private array $currentGroupAttributes = [];
 
-    private $currentRoute = null;
+    private ?Route $currentRoute = null;
 
     /**
      * Register a GET route.
@@ -161,17 +161,18 @@ class AvrestiRouter implements RouterInterface
         return $this->currentRoute;
     }
 
-    private function addRoute(string $method, string $uri, $action): Route
+    private function addRoute(string $method, string $uri, $action, ?string $name = null): Route
     {
         $groupName = $this->currentGroupAttributes['group'] ?? null;
 
         $route = new Route($method, $uri, $action, $groupName);
-        $this->routes[] = $route;
 
-        if ($route->name) {
-            $this->namedRoutes[$route->name] = $route;
+        if ($name) {
+            $route->name = $name;
+            $this->namedRoutes[$name] = $route;
         }
 
+        $this->routes[] = $route;
         return $route;
     }
 

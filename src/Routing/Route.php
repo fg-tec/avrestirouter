@@ -15,7 +15,7 @@ class Route
 
     public mixed $action;
 
-    public ?string $name = null;
+    public ?string $name;
 
     public ?string $group;
 
@@ -34,6 +34,7 @@ class Route
         $this->method = $method;
         $this->uri = $uri;
         $this->action = $action;
+        $this->name = null;
         $this->group = $group;
     }
 
