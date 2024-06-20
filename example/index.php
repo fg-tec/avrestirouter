@@ -1,6 +1,7 @@
 <?php
 
 require "../vendor/autoload.php";
+require "TestController.php";
 
 use AvrestiRouter\Routing\AvrestiRouter;
 use AvrestiRouter\Routing\Facade\Route;
@@ -16,21 +17,26 @@ if (getenv('ENV') !== 'production') {
 $router = new AvrestiRouter();
 Route::setRouter($router);
 
+// Define an unnamed route outside any group
+Route::get('/contact', function () {
+    return new \GuzzleHttp\Psr7\Response(200, [], "<h1>Contact page</h1> <br>");
+});
+
+// Define anamed route outside any group
+Route::get('/about', function () {
+    return new \GuzzleHttp\Psr7\Response(200, [], "<h1>Contact page</h1> <br>");
+})->name('about');
+
 // Define routes with a group
 Route::group(['group' => 'auth'], function () {
     Route::get('/', function () {
         return new \GuzzleHttp\Psr7\Response(200, [], "Hello World");
     })->name('index');
 
-    Route::get('/test', [TestController::class, 'create'])->name('test');
+    Route::get('/test', [\TestController::class, 'create'])->name('test');
     Route::get('/profile/{id}', function ($id) {
-        return new \GuzzleHttp\Psr7\Response(200, [], "Profile ID: $id");
+        return new \GuzzleHttp\Psr7\Response(200, [], "Profile ID: $id <br>");
     })->name('profile.show');
-});
-
-// Define a route outside any group
-Route::get('/pippo', function () {
-    return new \GuzzleHttp\Psr7\Response(200, [], "I am a pippo <br>");
 });
 
 // Create a server request instance
