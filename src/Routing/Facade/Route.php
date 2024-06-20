@@ -10,11 +10,11 @@ use Exception;
  *
  * Provides a static interface for the Router class.
  *
- * @method static \AvrestiRouter\Routing\Route get(string $uri, $action)
- * @method static \AvrestiRouter\Routing\Route post(string $uri, $action)
- * @method static \AvrestiRouter\Routing\Route put(string $uri, $action)
- * @method static \AvrestiRouter\Routing\Route patch(string $uri, $action)
- * @method static \AvrestiRouter\Routing\Route delete(string $uri, $action)
+ * @method static \AvrestiRouter\Routing\Route get(string $uri, mixed $action)
+ * @method static \AvrestiRouter\Routing\Route post(string $uri, mixed $action)
+ * @method static \AvrestiRouter\Routing\Route put(string $uri, mixed $action)
+ * @method static \AvrestiRouter\Routing\Route patch(string $uri, mixed $action)
+ * @method static \AvrestiRouter\Routing\Route delete(string $uri, mixed $action)
  * @method static void group(array $attributes, callable $callback)
  * @method static \Psr\Http\Message\ResponseInterface resolve(\Psr\Http\Message\ServerRequestInterface $request)
  * @method static string generateUrl(string $name, array $parameters = [])

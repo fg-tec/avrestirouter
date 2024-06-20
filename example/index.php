@@ -22,7 +22,7 @@ Route::get('/contact', function () {
     return new \GuzzleHttp\Psr7\Response(200, [], "<h1>Contact page</h1> <br>");
 });
 
-// Define anamed route outside any group
+// Define a named route outside any group
 Route::get('/about', function () {
     return new \GuzzleHttp\Psr7\Response(200, [], "<h1>About page</h1> <br>");
 })->name('about');

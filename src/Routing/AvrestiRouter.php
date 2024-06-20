@@ -9,26 +9,38 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Class AvrestiRouter
  *
- * Manages the registration, grouping and resolution of routes.
+ * Manages the registration, grouping, and resolution of routes.
  */
 class AvrestiRouter implements RouterInterface
 {
+    /**
+     * @var array The array of registered routes.
+     */
     private array $routes = [];
 
+    /**
+     * @var array The array of named routes.
+     */
     private array $namedRoutes = [];
 
+    /**
+     * @var array The current group attributes.
+     */
     private array $currentGroupAttributes = [];
 
+    /**
+     * @var Route|null The current matched route.
+     */
     private ?Route $currentRoute = null;
 
     /**
      * Register a GET route.
      *
      * @param string $uri
-     * @param $action
+     * @param mixed $action
      * @return Route
      */
-    public function get(string $uri, $action): Route
+    public function get(string $uri, mixed $action): Route
     {
         return $this->addRoute('GET', $uri, $action);
     }
@@ -37,10 +49,10 @@ class AvrestiRouter implements RouterInterface
      * Register a POST route.
      *
      * @param string $uri
-     * @param $action
+     * @param mixed $action
      * @return Route
      */
-    public function post(string $uri, $action): Route
+    public function post(string $uri, mixed $action): Route
     {
         return $this->addRoute('POST', $uri, $action);
     }
@@ -49,10 +61,10 @@ class AvrestiRouter implements RouterInterface
      * Register a PUT route.
      *
      * @param string $uri
-     * @param $action
+     * @param mixed $action
      * @return Route
      */
-    public function put(string $uri, $action): Route
+    public function put(string $uri, mixed $action): Route
     {
         return $this->addRoute('PUT', $uri, $action);
     }
@@ -61,10 +73,10 @@ class AvrestiRouter implements RouterInterface
      * Register a PATCH route.
      *
      * @param string $uri
-     * @param $action
+     * @param mixed $action
      * @return Route
      */
-    public function patch(string $uri, $action): Route
+    public function patch(string $uri, mixed $action): Route
     {
         return $this->addRoute('PATCH', $uri, $action);
     }
@@ -73,10 +85,10 @@ class AvrestiRouter implements RouterInterface
      * Register a DELETE route.
      *
      * @param string $uri
-     * @param $action
+     * @param mixed $action
      * @return Route
      */
-    public function delete(string $uri, $action): Route
+    public function delete(string $uri, mixed $action): Route
     {
         return $this->addRoute('DELETE', $uri, $action);
     }
@@ -86,14 +98,13 @@ class AvrestiRouter implements RouterInterface
      *
      * @param array $attributes
      * @param callable $callback
+     * @return void
      */
     public function group(array $attributes, callable $callback): void
     {
         $previousGroupAttributes = $this->currentGroupAttributes;
-
         $this->currentGroupAttributes = array_merge($this->currentGroupAttributes, $attributes);
         $callback($this);
-
         $this->currentGroupAttributes = $previousGroupAttributes;
     }
 
@@ -130,7 +141,7 @@ class AvrestiRouter implements RouterInterface
      */
     public function generateUrl(string $name, array $parameters = []): string
     {
-        if (! isset($this->namedRoutes[$name])) {
+        if (!isset($this->namedRoutes[$name])) {
             throw new Exception("Route with name {$name} not found");
         }
 
@@ -144,7 +155,12 @@ class AvrestiRouter implements RouterInterface
         return $url;
     }
 
-    public function addNamedRoute(Route $route)
+    /**
+     * Adds a named route.
+     *
+     * @param Route $route
+     */
+    public function addNamedRoute(Route $route): void
     {
         if ($route->name) {
             $this->namedRoutes[$route->name] = $route;
@@ -161,10 +177,18 @@ class AvrestiRouter implements RouterInterface
         return $this->currentRoute;
     }
 
-    private function addRoute(string $method, string $uri, $action, ?string $name = null): Route
+    /**
+     * Adds a route to the router.
+     *
+     * @param string $method
+     * @param string $uri
+     * @param mixed $action
+     * @param string|null $name
+     * @return Route
+     */
+    private function addRoute(string $method, string $uri, mixed $action, ?string $name = null): Route
     {
         $groupName = $this->currentGroupAttributes['group'] ?? null;
-
         $route = new Route($method, $uri, $action, $groupName);
 
         if ($name) {

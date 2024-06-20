@@ -5,24 +5,19 @@ namespace AvrestiRouter\Routing;
 /**
  * Class Route
  *
- * Represents a single route in the application
+ * Represents a single route in the application.
  */
 class Route
 {
     public string $method;
-
     public string $uri;
-
     public mixed $action;
-
-    public ?string $name;
-
-    public ?string $group;
-
+    public ?string $name = null;
+    public ?string $group = null;
     public array $parameters = [];
 
     /**
-     * Route constructor
+     * Route constructor.
      *
      * @param string $method
      * @param string $uri
@@ -34,7 +29,6 @@ class Route
         $this->method = $method;
         $this->uri = $uri;
         $this->action = $action;
-        $this->name = null;
         $this->group = $group;
     }
 
@@ -93,7 +87,13 @@ class Route
         return $this->group;
     }
 
-    public function getUrl(array $parameters = []): array|string
+    /**
+     * Returns the URL for the route with replaced parameters.
+     *
+     * @param array $parameters
+     * @return string
+     */
+    public function getUrl(array $parameters = []): string
     {
         $url = $this->uri;
 
@@ -102,5 +102,4 @@ class Route
         }
         return $url;
     }
-
 }
