@@ -65,7 +65,7 @@ interface RouterInterface
      * @param callable $callback
      * @return mixed
      */
-    public function group(array $attributes, callable $callback): mixed;
+    public function group(array $attributes, callable $callback): void;
 
     /**
      * Resolves the incoming request to the appropriate route
