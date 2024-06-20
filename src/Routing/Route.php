@@ -15,7 +15,7 @@ class Route
 
     public mixed $action;
 
-    public ?string $name;
+    public ?string $name = null;
 
     public ?string $group;
 
