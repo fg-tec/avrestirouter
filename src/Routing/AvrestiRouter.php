@@ -151,6 +151,16 @@ class AvrestiRouter implements RouterInterface
         }
     }
 
+    /**
+     * Returns the current matched route.
+     *
+     * @return Route|null
+     */
+    public function getCurrentRoute(): ?Route
+    {
+        return $this->currentRoute;
+    }
+
     private function addRoute(string $method, string $uri, $action): Route
     {
         $groupName = $this->currentGroupAttributes['group'] ?? null;
@@ -165,7 +175,15 @@ class AvrestiRouter implements RouterInterface
         return $route;
     }
 
-    private function matchUri(string $routeUri, string $requestUri, &$parameters): bool
+    /**
+     * Matches the request URI against the route URI.
+     *
+     * @param string $routeUri
+     * @param string $requestUri
+     * @param array|null $parameters
+     * @return bool
+     */
+    private function matchUri(string $routeUri, string $requestUri, ?array &$parameters): bool
     {
         $routeUriPattern = preg_replace('/\{[a-zA-Z_][a-zA-Z0-9_]*\}/', '([a-zA-Z0-9_-]+)', $routeUri);
         $routeUriPattern = str_replace('/', '\/', $routeUriPattern);
