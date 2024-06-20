@@ -1,0 +1,11 @@
+# Activer le moteur de réécriture
+RewriteEngine on
+
+# Activer les liens symboliques
+Options +FollowSymLinks
+
+# Si la requête ne concerne pas un fichier existant
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Rediriger toutes les autres requêtes vers index.php
+RewriteRule ^(.*)$ index.php [L]
