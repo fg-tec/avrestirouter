@@ -2,6 +2,7 @@
 
 namespace AvrestiRouter\Routing;
 
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -101,7 +102,7 @@ class AvrestiRouter implements RouterInterface
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public function resolve(ServerRequestInterface $request): ResponseInterface
     {
@@ -116,7 +117,7 @@ class AvrestiRouter implements RouterInterface
             }
         }
 
-        throw new \Exception('Route not found');
+        throw new Exception('Route not found');
     }
 
     /**
@@ -125,12 +126,12 @@ class AvrestiRouter implements RouterInterface
      * @param string $name
      * @param array $parameters
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function generateUrl(string $name, array $parameters = []): string
     {
         if (! isset($this->namedRoutes[$name])) {
-            throw new \Exception("Route with name {$name} not found");
+            throw new Exception("Route with name {$name} not found");
         }
 
         $route = $this->namedRoutes[$name];
@@ -141,6 +142,13 @@ class AvrestiRouter implements RouterInterface
         }
 
         return $url;
+    }
+
+    public function addNamedRoute(Route $route)
+    {
+        if ($route->name) {
+            $this->namedRoutes[$route->name] = $route;
+        }
     }
 
     private function addRoute(string $method, string $uri, $action): Route
@@ -174,7 +182,7 @@ class AvrestiRouter implements RouterInterface
      *
      * @param Route $route
      * @return ResponseInterface
-     * @throws \Exception
+     * @throws Exception
      */
     private function handleRouteAction(Route $route): ResponseInterface
     {
@@ -186,7 +194,7 @@ class AvrestiRouter implements RouterInterface
             $controller = new $route->action[0];
             return call_user_func_array([$controller, $route->action[1]], $parameters);
         } else {
-            throw new \Exception('Invalid route action');
+            throw new Exception('Invalid route action');
         }
     }
 }
