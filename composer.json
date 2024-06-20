@@ -1,0 +1,34 @@
+{
+    "name": "avresti/avrestirouter",
+    "description": "A fast and simple php router",
+    "keywords": ["router", "php", "simple", "fast"],
+    "type": "library",
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Franco Gaudiano",
+            "email": "franco@gaudiano.ch"
+        }
+    ],
+
+    "require": {
+        "php": "^8.3",
+
+        "guzzlehttp/guzzle": "^7.8"
+    },
+
+    "require-dev": {
+        "symfony/var-dumper": "^5.1",
+        "filp/whoops": "^2.7"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "AvrestiRouter\\": "src/"
+        }
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
