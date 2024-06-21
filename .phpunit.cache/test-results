@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"Tests\\Routing\\AvrestiRouterTest::testRouteWithoutNameAndWithoutGroup":0.01,"Tests\\Routing\\AvrestiRouterTest::testRouteWithNameAndWithoutGroup":0,"Tests\\Routing\\AvrestiRouterTest::testRoutesGroupedAndNamed":0,"Tests\\Routing\\AvrestiRouterTest::testRouteWithParams":0}}
