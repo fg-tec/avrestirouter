@@ -100,3 +100,7 @@ You can find a complete example demonstrating the usage of AvrestiRouter in the 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
+
+## Contributions
+
+Contributions are welcome! Please fork this repository and submit pull requests to contribute improvements or new features.
