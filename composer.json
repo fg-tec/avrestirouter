@@ -1,5 +1,5 @@
 {
-    "name": "avresti/avrestirouter",
+    "name": "franco2911/avrestirouter",
     "description": "A fast and simple php router",
     "keywords": ["router", "php", "simple", "fast"],
     "type": "library",
@@ -28,6 +28,10 @@
         "psr-4": {
             "AvrestiRouter\\": "src/"
         }
+    },
+
+    "scripts": {
+        "test": "phpunit"
     },
 
     "minimum-stability": "dev",
