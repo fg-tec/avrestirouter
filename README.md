@@ -16,7 +16,7 @@ AvrestiRouter is a simple yet powerful PHP routing library inspired by Laravel. 
 You can install AvrestiRouter using Composer:
 
 ```bash
-composer require avrestirouter/avrestirouter
+composer require franco2911/avrestirouter
 ```
 
 ## Getting Started
