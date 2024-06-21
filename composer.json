@@ -20,7 +20,8 @@
 
     "require-dev": {
         "symfony/var-dumper": "^5.1",
-        "filp/whoops": "^2.7"
+        "filp/whoops": "^2.7",
+        "phpunit/phpunit": "^11.2"
     },
 
     "autoload": {

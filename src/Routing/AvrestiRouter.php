@@ -9,28 +9,13 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Class AvrestiRouter
  *
- * Manages the registration, grouping, and resolution of routes.
+ * Manages the registration, grouping and resolution of routes.
  */
 class AvrestiRouter implements RouterInterface
 {
-    /**
-     * @var array The array of registered routes.
-     */
     private array $routes = [];
-
-    /**
-     * @var array The array of named routes.
-     */
     private array $namedRoutes = [];
-
-    /**
-     * @var array The current group attributes.
-     */
     private array $currentGroupAttributes = [];
-
-    /**
-     * @var Route|null The current matched route.
-     */
     private ?Route $currentRoute = null;
 
     /**
@@ -98,7 +83,6 @@ class AvrestiRouter implements RouterInterface
      *
      * @param array $attributes
      * @param callable $callback
-     * @return void
      */
     public function group(array $attributes, callable $callback): void
     {
@@ -121,7 +105,7 @@ class AvrestiRouter implements RouterInterface
         $uri = $request->getUri()->getPath();
 
         foreach ($this->routes as $route) {
-            if ($route->method === $method && $this->matchUri($route->uri, $uri, $parameters)) {
+            if ($route->getMethod() === $method && $this->matchUri($route->getUri(), $uri, $parameters)) {
                 $route->setParameters($parameters);
                 $this->currentRoute = $route;
                 return $this->handleRouteAction($route);
@@ -146,7 +130,7 @@ class AvrestiRouter implements RouterInterface
         }
 
         $route = $this->namedRoutes[$name];
-        $url = $route->uri;
+        $url = $route->getUri();
 
         foreach ($parameters as $key => $value) {
             $url = str_replace("{{$key}}", $value, $url);
@@ -162,8 +146,8 @@ class AvrestiRouter implements RouterInterface
      */
     public function addNamedRoute(Route $route): void
     {
-        if ($route->name) {
-            $this->namedRoutes[$route->name] = $route;
+        if ($route->getName()) {
+            $this->namedRoutes[$route->getName()] = $route;
         }
     }
 
@@ -183,19 +167,12 @@ class AvrestiRouter implements RouterInterface
      * @param string $method
      * @param string $uri
      * @param mixed $action
-     * @param string|null $name
      * @return Route
      */
-    private function addRoute(string $method, string $uri, mixed $action, ?string $name = null): Route
+    private function addRoute(string $method, string $uri, mixed $action): Route
     {
         $groupName = $this->currentGroupAttributes['group'] ?? null;
-        $route = new Route($method, $uri, $action, $groupName);
-
-        if ($name) {
-            $route->name = $name;
-            $this->namedRoutes[$name] = $route;
-        }
-
+        $route = new Route($method, $uri, $action, $groupName, $this);
         $this->routes[] = $route;
         return $route;
     }
@@ -229,13 +206,14 @@ class AvrestiRouter implements RouterInterface
      */
     private function handleRouteAction(Route $route): ResponseInterface
     {
-        $parameters = $route->parameters;
+        $parameters = $route->getParams();
+        $action = $route->getAction();
 
-        if (is_callable($route->action)) {
-            return call_user_func_array($route->action, $parameters);
-        } elseif (is_array($route->action)) {
-            $controller = new $route->action[0];
-            return call_user_func_array([$controller, $route->action[1]], $parameters);
+        if (is_callable($action)) {
+            return call_user_func_array($action, $parameters);
+        } elseif (is_array($action)) {
+            $controller = new $action[0];
+            return call_user_func_array([$controller, $action[1]], $parameters);
         } else {
             throw new Exception('Invalid route action');
         }

@@ -9,11 +9,12 @@ namespace AvrestiRouter\Routing;
  */
 class Route
 {
+    private AvrestiRouter $router;
     public string $method;
     public string $uri;
     public mixed $action;
-    public ?string $name = null;
-    public ?string $group = null;
+    public ?string $name;
+    public ?string $group;
     public array $parameters = [];
 
     /**
@@ -23,13 +24,16 @@ class Route
      * @param string $uri
      * @param mixed $action
      * @param string|null $group
+     * @param AvrestiRouter $router
      */
-    public function __construct(string $method, string $uri, mixed $action, ?string $group = null)
+    public function __construct(string $method, string $uri, mixed $action, ?string $group, AvrestiRouter $router)
     {
         $this->method = $method;
         $this->uri = $uri;
         $this->action = $action;
+        $this->name = null;
         $this->group = $group;
+        $this->router = $router;
     }
 
     /**
@@ -41,9 +45,7 @@ class Route
     public function name(string $name): static
     {
         $this->name = $name;
-        global $router;
-
-        $router->addNamedRoute($this);
+        $this->router->addNamedRoute($this);
         return $this;
     }
 
@@ -85,6 +87,36 @@ class Route
     public function getGroup(): ?string
     {
         return $this->group;
+    }
+
+    /**
+     * Returns the method of the route.
+     *
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+
+    /**
+     * Returns the URI of the route.
+     *
+     * @return string
+     */
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
+
+    /**
+     * Returns the action of the route.
+     *
+     * @return mixed
+     */
+    public function getAction(): mixed
+    {
+        return $this->action;
     }
 
     /**

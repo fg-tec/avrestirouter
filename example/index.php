@@ -5,6 +5,7 @@ require "TestController.php";
 
 use AvrestiRouter\Routing\AvrestiRouter;
 use AvrestiRouter\Routing\Facade\Route;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 
 if (getenv('ENV') !== 'production') {
@@ -61,7 +62,7 @@ if ($currentRoute) {
 
 // Generate URL from named route
 try {
-    echo "<br>" . Route::generateUrl('profile.show', ['id' => 123]); // Output: /profile/123
+    echo "<br>" . Route::generateUrl('profile.show', ['id' => 1259]); // Output: /profile/123
 } catch (Exception $e) {
     echo $e->getMessage();
 }
